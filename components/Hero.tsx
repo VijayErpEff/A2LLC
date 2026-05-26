@@ -66,57 +66,59 @@ export default function Hero() {
           </RevealLine>
 
           <div className="my-2 flex flex-wrap items-baseline gap-x-6 sm:gap-x-8">
-            <RevealLine delay={0.3}>
-              <span
-                className="relative inline-grid italic"
-                style={{ fontFamily: "var(--font-display)" }}
-              >
-                {/* Stack every word in the same grid cell so the parent auto-sizes to the widest one — prevents the cycling word from being clipped on the right. */}
+            <motion.span
+              initial={{ opacity: 0, y: 28 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.85, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="relative inline-block italic"
+              style={{ fontFamily: "var(--font-display)" }}
+            >
+              {/* Ghost stack sizes the box to the widest word; absolute children below won't be clipped because this wrapper has no overflow-hidden. */}
+              <span aria-hidden className="invisible inline-grid">
                 {cyclingWords.map((word) => (
                   <span
                     key={`measure-${word}`}
-                    aria-hidden
-                    className="col-start-1 row-start-1 invisible whitespace-pre pr-[0.12em]"
+                    className="col-start-1 row-start-1 whitespace-pre pr-[0.12em]"
                   >
                     {word}
                   </span>
                 ))}
-                <AnimatePresence mode="wait">
-                  <motion.span
-                    key={cyclingWords[w]}
-                    initial={{ y: "80%", opacity: 0, rotate: 6 }}
-                    animate={{ y: 0, opacity: 1, rotate: 0 }}
-                    exit={{ y: "-80%", opacity: 0, rotate: -4 }}
-                    transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                    className="col-start-1 row-start-1 whitespace-pre pr-[0.12em] text-accent-grad"
-                  >
-                    {cyclingWords[w]}
-                  </motion.span>
-                </AnimatePresence>
-                <motion.svg
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 1.2, delay: 1.2, ease: "easeOut" }}
-                  viewBox="0 0 300 14"
-                  preserveAspectRatio="none"
-                  className="absolute -bottom-2 left-0 h-2 w-full"
-                >
-                  <motion.path
-                    d="M2 8 C 60 2, 140 12, 220 6 S 290 8, 298 6"
-                    fill="none"
-                    stroke="url(#hero-underline)"
-                    strokeWidth="2.4"
-                    strokeLinecap="round"
-                  />
-                  <defs>
-                    <linearGradient id="hero-underline" x1="0" y1="0" x2="300" y2="0">
-                      <stop offset="0%" stopColor="#2540b5" />
-                      <stop offset="100%" stopColor="#f25e3f" />
-                    </linearGradient>
-                  </defs>
-                </motion.svg>
               </span>
-            </RevealLine>
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={cyclingWords[w]}
+                  initial={{ y: "80%", opacity: 0, rotate: 6 }}
+                  animate={{ y: 0, opacity: 1, rotate: 0 }}
+                  exit={{ y: "-80%", opacity: 0, rotate: -4 }}
+                  transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute left-0 top-0 whitespace-pre pr-[0.12em] text-accent-grad"
+                >
+                  {cyclingWords[w]}
+                </motion.span>
+              </AnimatePresence>
+              <motion.svg
+                initial={{ pathLength: 0 }}
+                animate={{ pathLength: 1 }}
+                transition={{ duration: 1.2, delay: 1.2, ease: "easeOut" }}
+                viewBox="0 0 300 14"
+                preserveAspectRatio="none"
+                className="absolute -bottom-1 left-0 h-2 w-full"
+              >
+                <motion.path
+                  d="M2 8 C 60 2, 140 12, 220 6 S 290 8, 298 6"
+                  fill="none"
+                  stroke="url(#hero-underline)"
+                  strokeWidth="2.4"
+                  strokeLinecap="round"
+                />
+                <defs>
+                  <linearGradient id="hero-underline" x1="0" y1="0" x2="300" y2="0">
+                    <stop offset="0%" stopColor="#2540b5" />
+                    <stop offset="100%" stopColor="#f25e3f" />
+                  </linearGradient>
+                </defs>
+              </motion.svg>
+            </motion.span>
             <RevealLine delay={0.45}>
               <span className="font-medium tracking-tightest">built to ship.</span>
             </RevealLine>
