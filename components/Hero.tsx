@@ -67,31 +67,30 @@ export default function Hero() {
 
           <div className="my-2 flex flex-wrap items-baseline gap-x-6 sm:gap-x-8">
             <motion.span
-              initial={{ opacity: 0, y: 28 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 28, skewX: -1.5 }}
+              animate={{ opacity: 1, y: 0, skewX: -1.5 }}
               transition={{ duration: 0.85, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="relative inline-block italic pl-[0.2em] pb-[0.32em] leading-[1.18]"
+              className="relative inline-grid italic px-[0.22em] pt-[0.08em] pb-[0.3em] leading-[1.2]"
               style={{ fontFamily: "var(--font-display)" }}
             >
-              {/* Ghost stack sizes the box to the widest word; absolute children below won't be clipped because this wrapper has no overflow-hidden. */}
-              <span aria-hidden className="invisible inline-grid">
-                {cyclingWords.map((word) => (
-                  <span
-                    key={`measure-${word}`}
-                    className="col-start-1 row-start-1 whitespace-pre pr-[0.12em]"
-                  >
-                    {word}
-                  </span>
-                ))}
-              </span>
+              {/* Every measurement word + the visible cycling word share the same grid cell. The visible word is a real grid item, so the parent's padding actually pushes it inward — giving the italic slant and descenders room to render. */}
+              {cyclingWords.map((word) => (
+                <span
+                  key={`measure-${word}`}
+                  aria-hidden
+                  className="col-start-1 row-start-1 invisible whitespace-pre"
+                >
+                  {word}
+                </span>
+              ))}
               <AnimatePresence mode="wait">
                 <motion.span
                   key={cyclingWords[w]}
-                  initial={{ y: "80%", opacity: 0, rotate: 6 }}
-                  animate={{ y: 0, opacity: 1, rotate: 0 }}
-                  exit={{ y: "-80%", opacity: 0, rotate: -4 }}
+                  initial={{ y: "85%", opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: "-85%", opacity: 0 }}
                   transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                  className="absolute left-0 top-0 whitespace-pre pr-[0.12em] text-accent-grad"
+                  className="col-start-1 row-start-1 whitespace-pre text-accent-grad"
                 >
                   {cyclingWords[w]}
                 </motion.span>
