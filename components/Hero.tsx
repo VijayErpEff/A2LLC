@@ -78,8 +78,13 @@ export default function Hero() {
                 read as clipping even when they rendered fully. Removing italic
                 eliminates the slant + the dramatic descender curl. */}
             <span
-              className="relative inline-grid font-medium tracking-tightest"
-              style={{ fontFamily: "var(--font-display)", paddingRight: "0.12em" }}
+              className="relative inline-grid font-medium"
+              style={{
+                fontFamily: "var(--font-display)",
+                paddingLeft: "0.15em",
+                paddingRight: "0.3em",
+                letterSpacing: "0",
+              }}
             >
               {cyclingWords.map((word) => (
                 <span
