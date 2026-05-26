@@ -59,30 +59,27 @@ export default function Hero() {
         {/* Headline */}
         <motion.h1
           style={{ y: titleY, opacity: titleOp }}
-          className="heading-display text-center text-[10.4vw] leading-[0.96] sm:text-[8.6vw] lg:text-[8rem] xl:text-[9.1rem]"
+          className="heading-display text-center text-[10.4vw] sm:text-[8.6vw] lg:text-[8rem] xl:text-[9.1rem]"
+          // leading bumped 0.96 -> 1.05 so each line box is tall enough to
+          // hold the natural descender depth of italic 'p'/'f'/'g' on the
+          // second line without any overflow-hidden wrapper having to clip.
+          // Slight reduction from default 1 was clipping descenders.
         >
           <RevealLine delay={0.15}>
             <span className="font-medium tracking-tightest">We engineer</span>
           </RevealLine>
 
-          <div className="my-2 flex flex-wrap items-baseline justify-center gap-x-6 sm:gap-x-8">
-            <motion.span
-              initial={{ opacity: 0, y: 28, skewX: -1.5 }}
-              animate={{ opacity: 1, y: 0, skewX: -1.5 }}
-              transition={{ duration: 0.85, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          <div
+            className="flex flex-wrap items-baseline justify-center gap-x-6 sm:gap-x-8"
+            style={{ lineHeight: 1.18 }}
+          >
+            {/* Cycling word — same size as surrounding text, italic + gradient,
+                wrapped in a no-overflow inline-grid that sizes to the widest
+                cycling word so the layout doesn't jump as the word swaps. */}
+            <span
               className="relative inline-grid italic"
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "0.7em",
-                lineHeight: 1.35,
-                paddingLeft: "0.5em",
-                paddingRight: "0.5em",
-                paddingTop: "0.2em",
-                paddingBottom: "0.55em",
-                overflow: "visible",
-              }}
+              style={{ fontFamily: "var(--font-display)" }}
             >
-              {/* Every measurement word + the visible cycling word share the same grid cell. The visible word is a real grid item, so the parent's padding actually pushes it inward — giving the italic slant and descenders room to render. */}
               {cyclingWords.map((word) => (
                 <span
                   key={`measure-${word}`}
@@ -95,9 +92,9 @@ export default function Hero() {
               <AnimatePresence mode="wait">
                 <motion.span
                   key={cyclingWords[w]}
-                  initial={{ y: "85%", opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: "-85%", opacity: 0 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
                   className="text-accent-grad"
                   style={{ gridArea: "1 / 1", whiteSpace: "pre" }}
@@ -105,7 +102,7 @@ export default function Hero() {
                   {cyclingWords[w]}
                 </motion.span>
               </AnimatePresence>
-            </motion.span>
+            </span>
             <RevealLine delay={0.45}>
               <span className="font-medium tracking-tightest">built to ship.</span>
             </RevealLine>
