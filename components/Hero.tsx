@@ -73,7 +73,7 @@ export default function Hero() {
               className="relative inline-grid italic"
               style={{
                 fontFamily: "var(--font-display)",
-                fontSize: "0.78em",
+                fontSize: "0.7em",
                 lineHeight: 1.35,
                 paddingLeft: "0.5em",
                 paddingRight: "0.5em",
