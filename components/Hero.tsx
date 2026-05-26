@@ -70,40 +70,30 @@ export default function Hero() {
           </RevealLine>
 
           <div
-            className="flex flex-wrap items-baseline justify-center gap-x-6 sm:gap-x-8"
-            style={{ lineHeight: 1.18 }}
+            className="flex flex-wrap items-baseline justify-center"
+            style={{ lineHeight: 1.18, columnGap: "0.28em" }}
           >
             {/* Cycling word — same font, same size, gradient color, NO italic.
                 Italic serif descenders ('p'/'f' curl below baseline) were being
                 read as clipping even when they rendered fully. Removing italic
                 eliminates the slant + the dramatic descender curl. */}
+            {/* Cycling word sizes to whatever word is currently visible, so the
+                gap to "built to ship." always reads as a single natural word-space.
+                AnimatePresence with popLayout makes the surrounding line shift
+                smoothly as the word changes width, instead of jumping. */}
             <span
-              className="relative inline-grid font-medium"
-              style={{
-                fontFamily: "var(--font-display)",
-                paddingLeft: "0.2em",
-                paddingRight: "0.4em",
-                letterSpacing: "0",
-              }}
+              className="relative inline-block font-medium"
+              style={{ fontFamily: "var(--font-display)", letterSpacing: "0" }}
             >
-              {cyclingWords.map((word) => (
-                <span
-                  key={`measure-${word}`}
-                  aria-hidden
-                  style={{ gridArea: "1 / 1", visibility: "hidden", whiteSpace: "pre" }}
-                >
-                  {word}
-                </span>
-              ))}
-              <AnimatePresence mode="wait">
+              <AnimatePresence mode="popLayout">
                 <motion.span
                   key={cyclingWords[w]}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                  className="text-accent-grad"
-                  style={{ gridArea: "1 / 1", whiteSpace: "pre" }}
+                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  className="text-accent-grad inline-block"
+                  style={{ whiteSpace: "pre" }}
                 >
                   {cyclingWords[w]}
                 </motion.span>
