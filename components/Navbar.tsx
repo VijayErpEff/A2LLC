@@ -57,9 +57,16 @@ export default function Navbar() {
           </ul>
 
           <div className="hidden items-center gap-3 md:flex">
-            <a href="#contact" className="group inline-flex items-center gap-1.5 text-sm font-medium text-ink-900">
-              <span className="link-underline">Start a project</span>
-              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            <a
+              href="#contact"
+              className="group relative inline-flex items-center gap-1.5 overflow-hidden rounded-full bg-ink-900 px-5 py-2.5 text-sm font-medium text-paper shadow-[0_8px_22px_-12px_rgba(20,20,26,0.55)] transition-all hover:-translate-y-px hover:shadow-[0_14px_30px_-12px_rgba(20,20,26,0.6)]"
+            >
+              <span
+                aria-hidden
+                className="absolute inset-0 -z-0 bg-[linear-gradient(95deg,#2540b5_0%,#6b4bf0_45%,#f25e3f_95%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              />
+              <span className="relative z-10">Start a project</span>
+              <ArrowUpRight className="relative z-10 h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </a>
           </div>
 

@@ -14,8 +14,8 @@ export default function Logo({ className = "" }: { className?: string }) {
     <a
       href="#"
       onClick={scrollToTop}
-      aria-label="A2 LLC — home"
-      className={`group inline-flex items-center gap-2.5 ${className}`}
+      aria-label="A2 — home"
+      className={`group inline-flex items-center gap-3 ${className}`}
     >
       <motion.span
         whileHover={{ rotate: -6 }}
@@ -23,19 +23,19 @@ export default function Logo({ className = "" }: { className?: string }) {
         transition={{ type: "spring", stiffness: 320, damping: 18 }}
         className="relative inline-block"
       >
-        <svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true" className="block">
+        <svg viewBox="0 0 40 40" width="44" height="44" aria-hidden="true" className="block">
           <defs>
             <linearGradient id="a2-mark" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stopColor="#3b21ff" />
-              <stop offset="55%" stopColor="#7b3aff" />
-              <stop offset="100%" stopColor="#ff2bd6" />
+              <stop offset="0%" stopColor="#2540b5" />
+              <stop offset="55%" stopColor="#6b4bf0" />
+              <stop offset="100%" stopColor="#f25e3f" />
             </linearGradient>
           </defs>
 
           {/* Echo A — paper-toned for depth */}
           <path
             d="M22 9 L34 33 L29 33 L26.5 28.5 L19.5 28.5 L17 33 L12 33 Z M22 16.5 L24.5 22 L19.5 22 Z"
-            fill="#0c0c0e"
+            fill="#14141a"
             opacity="0.08"
             fillRule="evenodd"
           />
@@ -43,7 +43,7 @@ export default function Logo({ className = "" }: { className?: string }) {
           {/* Foreground A */}
           <path
             d="M14 4 L26 28 L21 28 L18.5 23.5 L11.5 23.5 L9 28 L4 28 Z M14 11.5 L16.5 17 L11.5 17 Z"
-            fill="#0c0c0e"
+            fill="#14141a"
             fillRule="evenodd"
           />
 
@@ -52,8 +52,8 @@ export default function Logo({ className = "" }: { className?: string }) {
         </svg>
       </motion.span>
 
-      <span className="font-medium tracking-tight text-ink-900">
-        A2 <span className="text-ink-mute">LLC</span>
+      <span className="text-xl font-medium tracking-tight text-ink-900">
+        A2
       </span>
     </a>
   );

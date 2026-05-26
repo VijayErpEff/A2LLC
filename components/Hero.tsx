@@ -52,7 +52,7 @@ export default function Hero() {
             className="label-eyebrow"
           >
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-500" />
-            A2 LLC · Engineering Studio · est. 2022
+            A2 · Engineering Studio · est. 2022
           </motion.span>
         </div>
 
@@ -68,12 +68,19 @@ export default function Hero() {
           <div className="my-2 flex flex-wrap items-baseline gap-x-6 sm:gap-x-8">
             <RevealLine delay={0.3}>
               <span
-                className="relative inline-block italic"
+                className="relative inline-grid italic"
                 style={{ fontFamily: "var(--font-display)" }}
               >
-                <span className="invisible whitespace-pre">
-                  {longest(cyclingWords)}
-                </span>
+                {/* Stack every word in the same grid cell so the parent auto-sizes to the widest one — prevents the cycling word from being clipped on the right. */}
+                {cyclingWords.map((word) => (
+                  <span
+                    key={`measure-${word}`}
+                    aria-hidden
+                    className="col-start-1 row-start-1 invisible whitespace-pre pr-[0.12em]"
+                  >
+                    {word}
+                  </span>
+                ))}
                 <AnimatePresence mode="wait">
                   <motion.span
                     key={cyclingWords[w]}
@@ -81,7 +88,7 @@ export default function Hero() {
                     animate={{ y: 0, opacity: 1, rotate: 0 }}
                     exit={{ y: "-80%", opacity: 0, rotate: -4 }}
                     transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                    className="absolute left-0 top-0 whitespace-pre text-accent-grad"
+                    className="col-start-1 row-start-1 whitespace-pre pr-[0.12em] text-accent-grad"
                   >
                     {cyclingWords[w]}
                   </motion.span>
@@ -103,8 +110,8 @@ export default function Hero() {
                   />
                   <defs>
                     <linearGradient id="hero-underline" x1="0" y1="0" x2="300" y2="0">
-                      <stop offset="0%" stopColor="#3b21ff" />
-                      <stop offset="100%" stopColor="#ff2bd6" />
+                      <stop offset="0%" stopColor="#2540b5" />
+                      <stop offset="100%" stopColor="#f25e3f" />
                     </linearGradient>
                   </defs>
                 </motion.svg>
@@ -187,6 +194,3 @@ function Stat({ label, value }: { label: string; value: string }) {
   );
 }
 
-function longest(words: string[]) {
-  return words.reduce((a, b) => (b.length > a.length ? b : a), "");
-}

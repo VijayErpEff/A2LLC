@@ -25,13 +25,13 @@ const mono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://a2llc.com"),
   title: {
-    default: "A2 LLC — Engineering studio for Microsoft, AI, mobile & web",
-    template: "%s · A2 LLC",
+    default: "A2 — Engineering studio for Microsoft, AI, mobile & web",
+    template: "%s · A2",
   },
   description:
-    "A2 LLC is an engineering studio building production software on the Microsoft stack and ai-native, mobile, and web applications.",
+    "A2 is an engineering studio building production software on the Microsoft stack and ai-native, mobile, and web applications.",
   openGraph: {
-    title: "A2 LLC — Engineering studio",
+    title: "A2 — Engineering studio",
     description:
       "Microsoft-stack, agentic AI, mobile & web. Engineered for production.",
     type: "website",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f4f2ec",
+  themeColor: "#f5f2ea",
 };
 
 export default function RootLayout({

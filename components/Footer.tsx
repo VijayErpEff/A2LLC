@@ -16,7 +16,7 @@ export default function Footer() {
           className="overflow-hidden"
         >
           <h2 className="heading-display text-[20vw] leading-[0.85] tracking-tightest text-ink-900 sm:text-[16vw]">
-            A2 <span className="italic text-accent-grad">LLC.</span>
+            A2<span className="italic text-accent-grad">.</span>
           </h2>
         </motion.div>
 
