@@ -30,13 +30,16 @@ export default function Logo({ className = "" }: { className?: string }) {
               <stop offset="55%" stopColor="#6b4bf0" />
               <stop offset="100%" stopColor="#f25e3f" />
             </linearGradient>
+            <linearGradient id="a2-echo" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#2540b5" stopOpacity="0.32" />
+              <stop offset="100%" stopColor="#f25e3f" stopOpacity="0.32" />
+            </linearGradient>
           </defs>
 
-          {/* Echo A — paper-toned for depth */}
+          {/* Echo A — brand-tinted shadow for depth */}
           <path
             d="M22 9 L34 33 L29 33 L26.5 28.5 L19.5 28.5 L17 33 L12 33 Z M22 16.5 L24.5 22 L19.5 22 Z"
-            fill="#14141a"
-            opacity="0.08"
+            fill="url(#a2-echo)"
             fillRule="evenodd"
           />
 

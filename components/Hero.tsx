@@ -70,7 +70,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.85, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="relative inline-block italic pl-[0.08em] pb-[0.2em] leading-[1.1]"
+              className="relative inline-block italic pl-[0.2em] pb-[0.32em] leading-[1.18]"
               style={{ fontFamily: "var(--font-display)" }}
             >
               {/* Ghost stack sizes the box to the widest word; absolute children below won't be clipped because this wrapper has no overflow-hidden. */}
