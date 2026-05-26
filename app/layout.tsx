@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Inter, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -8,43 +8,39 @@ const inter = Inter({
   display: "swap",
 });
 
-const display = Space_Grotesk({
+const display = Instrument_Serif({
   subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
   variable: "--font-display",
+  display: "swap",
+});
+
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
   display: "swap",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://a2llc.com"),
   title: {
-    default: "A2 LLC — Microsoft-Stack Software, Mobile & Web Engineering",
+    default: "A2 LLC — Engineering studio for Microsoft, AI, mobile & web",
     template: "%s · A2 LLC",
   },
   description:
-    "A2 LLC builds production-grade software on the Microsoft stack and ships custom mobile and web applications for ambitious teams.",
-  keywords: [
-    "A2 LLC",
-    "Microsoft stack",
-    ".NET",
-    "Azure",
-    "Power Platform",
-    "Dynamics 365",
-    "custom software",
-    "mobile apps",
-    "web applications",
-    "software consulting",
-  ],
+    "A2 LLC is an engineering studio building production software on the Microsoft stack and ai-native, mobile, and web applications.",
   openGraph: {
-    title: "A2 LLC — Software Engineering Studio",
+    title: "A2 LLC — Engineering studio",
     description:
-      "Microsoft-stack software, custom mobile and web applications. Engineered for production.",
+      "Microsoft-stack, agentic AI, mobile & web. Engineered for production.",
     type: "website",
     url: "https://a2llc.com",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#05060a",
+  themeColor: "#f4f2ec",
 };
 
 export default function RootLayout({
@@ -53,10 +49,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${display.variable}`}>
-      <body className="bg-ink-950 text-white antialiased selection:bg-accent-violet/40 selection:text-white">
-        {children}
-      </body>
+    <html lang="en" className={`${inter.variable} ${display.variable} ${mono.variable}`}>
+      <body>{children}</body>
     </html>
   );
 }

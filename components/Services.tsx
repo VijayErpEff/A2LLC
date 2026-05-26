@@ -1,147 +1,275 @@
 "use client";
 import { motion } from "framer-motion";
-import {
-  Code2,
-  Cloud,
-  Smartphone,
-  Globe,
-  Database,
-  Workflow,
-  ArrowUpRight,
-} from "lucide-react";
+import { ArrowUpRight, Sparkles } from "lucide-react";
+import ServiceIcon from "./ServiceIcon";
+import TiltCard from "./TiltCard";
 
-const services = [
+const grid = [
   {
-    icon: Code2,
+    icon: "dotnet" as const,
     title: ".NET Engineering",
     blurb:
-      "Production-grade APIs, services, and back-office systems on .NET 8, ASP.NET Core, and EF Core — built to scale and survive in real environments.",
-    bullets: ["Web APIs & microservices", "Blazor & Razor web apps", "Background workers"],
-    gradient: "from-accent-cyan to-accent-blue",
+      "Production APIs, services, and back-office systems on .NET 8, ASP.NET Core, EF Core. Built to scale and survive in real environments.",
+    bullets: ["Web APIs & microservices", "Blazor & Razor", "Background workers"],
   },
   {
-    icon: Cloud,
+    icon: "cloud" as const,
     title: "Azure Cloud",
     blurb:
-      "Architect, deploy, and operate workloads on Azure. App Service, Functions, AKS, Service Bus, Key Vault — wired up the right way from day one.",
+      "Architect, deploy, and operate workloads on Azure — App Service, Functions, AKS, Service Bus, Key Vault — wired up the right way from day one.",
     bullets: ["Cloud architecture", "DevOps & CI/CD", "Cost & observability"],
-    gradient: "from-accent-blue to-accent-violet",
   },
   {
-    icon: Smartphone,
+    icon: "mobile" as const,
     title: "Mobile Apps",
     blurb:
-      "Native-feeling iOS & Android apps built with React Native and .NET MAUI. Offline-first, store-ready, and tightly integrated with your backend.",
+      "Native-feeling iOS & Android apps with React Native and .NET MAUI. Offline-first, store-ready, integrated with your backend.",
     bullets: ["React Native", ".NET MAUI", "App Store delivery"],
-    gradient: "from-accent-violet to-accent-fuchsia",
   },
   {
-    icon: Globe,
+    icon: "web" as const,
     title: "Web Applications",
     blurb:
-      "Modern web products with React, Next.js, and TypeScript. Fast, accessible, animated where it matters — engineered for conversion and trust.",
+      "Modern web products with React, Next.js, and TypeScript. Fast, accessible, and animated where it counts — engineered for conversion.",
     bullets: ["React & Next.js", "Design systems", "Performance budgets"],
-    gradient: "from-accent-fuchsia to-accent-blue",
   },
   {
-    icon: Database,
+    icon: "data" as const,
     title: "Data & Integrations",
     blurb:
       "SQL Server, Azure SQL, Cosmos DB, and clean integrations with Dynamics 365, Power BI, and the systems your business already runs on.",
     bullets: ["SQL & NoSQL", "ETL & sync", "Reporting & BI"],
-    gradient: "from-accent-cyan to-accent-violet",
   },
   {
-    icon: Workflow,
+    icon: "power" as const,
     title: "Power Platform",
     blurb:
-      "Power Apps, Power Automate, and Dataverse solutions that turn manual workflows into automated, audited, and observable processes.",
-    bullets: ["Power Apps", "Power Automate", "Dataverse modeling"],
-    gradient: "from-accent-blue to-accent-fuchsia",
+      "Power Apps, Power Automate, and Dataverse solutions that turn manual workflows into automated, audited, observable processes.",
+    bullets: ["Power Apps", "Power Automate", "Dataverse"],
   },
 ];
 
 export default function Services() {
   return (
-    <section id="services" className="relative mt-32 sm:mt-44 scroll-mt-24">
+    <section id="services" className="relative mt-40 scroll-mt-24 sm:mt-56">
       <div className="container-x">
-        <div className="flex flex-col items-center text-center">
-          <motion.span
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            className="section-eyebrow"
-          >
-            What we do
-          </motion.span>
-          <motion.h2
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.6 }}
-            className="heading-display mt-4 max-w-3xl text-balance text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl"
-          >
-            Senior engineering across the{" "}
-            <span className="text-gradient-accent">Microsoft stack</span>{" "}
-            and beyond.
-          </motion.h2>
+        {/* Header */}
+        <div className="grid items-end gap-10 lg:grid-cols-[1.3fr_1fr]">
+          <div>
+            <motion.span
+              initial={{ opacity: 0, y: 8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              className="label-eyebrow"
+            >
+              <span className="inline-block h-px w-6 bg-ink-900/40" />
+              What we build
+            </motion.span>
+            <motion.h2
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7 }}
+              className="heading-display mt-5 text-5xl text-ink-900 sm:text-6xl lg:text-7xl"
+            >
+              Senior engineering,
+              <br />
+              <span className="italic text-accent-grad">end&#8209;to&#8209;end.</span>
+            </motion.h2>
+          </div>
           <motion.p
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="mt-4 max-w-2xl text-balance text-white/60"
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="max-w-md text-lg leading-snug text-ink-soft"
           >
-            We embed with your team or build standalone — from a single feature to a
-            full product. Every engagement is led by a senior engineer.
+            We embed with your team or build standalone — from a single feature
+            to a full product. Every engagement is led by a senior engineer who
+            writes code, runs deploys, and owns outcomes.
           </motion.p>
         </div>
 
-        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((s, i) => (
-            <motion.article
+        {/* Featured AI card */}
+        <FeaturedAI />
+
+        {/* Grid */}
+        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {grid.map((s, i) => (
+            <motion.div
               key={s.title}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.55, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -4 }}
-              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.025] p-6 transition-colors hover:border-white/20"
+              transition={{ duration: 0.6, delay: i * 0.04, ease: [0.22, 1, 0.36, 1] }}
             >
-              {/* Gradient glow on hover */}
-              <div
-                aria-hidden
-                className={`pointer-events-none absolute -inset-px -z-10 rounded-2xl bg-gradient-to-br ${s.gradient} opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-30`}
-              />
-
-              <div className="flex items-center justify-between">
-                <div
-                  className={`grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br ${s.gradient} shadow-[0_10px_30px_-12px_rgba(139,92,246,0.6)]`}
-                >
-                  <s.icon className="h-5 w-5 text-white" />
+              <TiltCard className="h-full rounded-3xl border border-ink-900/8 bg-white/70 p-6 backdrop-blur-sm transition-colors hover:bg-white">
+                <div className="flex items-start justify-between">
+                  <div className="grid h-11 w-11 place-items-center rounded-xl bg-ink-900 text-paper">
+                    <ServiceIcon name={s.icon} className="h-5 w-5" />
+                  </div>
+                  <ArrowUpRight className="h-4 w-4 text-ink-mute" />
                 </div>
-                <ArrowUpRight className="h-4 w-4 text-white/30 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white/80" />
-              </div>
-
-              <h3 className="heading-display mt-5 text-xl font-semibold text-white">
-                {s.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-white/60">{s.blurb}</p>
-
-              <ul className="mt-5 space-y-1.5 text-sm text-white/55">
-                {s.bullets.map((b) => (
-                  <li key={b} className="flex items-center gap-2">
-                    <span
-                      className={`h-1.5 w-1.5 rounded-full bg-gradient-to-r ${s.gradient}`}
-                    />
-                    {b}
-                  </li>
-                ))}
-              </ul>
-            </motion.article>
+                <h3 className="heading-display mt-6 text-3xl text-ink-900">{s.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-ink-soft">{s.blurb}</p>
+                <ul className="mt-5 flex flex-wrap gap-1.5">
+                  {s.bullets.map((b) => (
+                    <li key={b} className="rounded-full border border-ink-900/10 px-2.5 py-1 text-xs text-ink-soft">
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+              </TiltCard>
+            </motion.div>
           ))}
         </div>
       </div>
     </section>
+  );
+}
+
+function FeaturedAI() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      className="mt-16"
+    >
+      <TiltCard intensity={3} className="relative overflow-hidden rounded-[32px] bg-ink-900 text-paper">
+        {/* Animated AI mesh */}
+        <AIMesh />
+
+        <div className="relative grid items-center gap-10 p-8 sm:p-12 lg:grid-cols-[1.2fr_1fr]">
+          <div>
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-paper/80">
+              <Sparkles className="h-3 w-3" />
+              New · Featured practice
+            </span>
+            <h3 className="heading-display mt-5 text-4xl sm:text-5xl lg:text-6xl">
+              Agentic AI development
+              <br />
+              <span className="italic text-paper/70">for Microsoft 365.</span>
+            </h3>
+            <p className="mt-5 max-w-xl text-paper/65 sm:text-lg">
+              We build production AI agents on Azure OpenAI, Copilot Studio,
+              and Microsoft 365 Copilot — grounded on your data, governed by
+              your policies, and actually used by your team.
+            </p>
+
+            <div className="mt-7 flex flex-wrap gap-2">
+              {[
+                "Azure OpenAI",
+                "M365 Copilot",
+                "Copilot Studio",
+                "Semantic Kernel",
+                "RAG pipelines",
+                "Agent orchestration",
+                "Tool use & function calling",
+                "Evaluation & guardrails",
+              ].map((t) => (
+                <span
+                  key={t}
+                  className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs text-paper/80"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+
+            <a
+              href="#contact"
+              className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-paper"
+            >
+              <span className="link-underline">Talk to us about Copilot for your team</span>
+              <ArrowUpRight className="h-4 w-4" />
+            </a>
+          </div>
+
+          {/* Right column visual */}
+          <AIShowcase />
+        </div>
+      </TiltCard>
+    </motion.div>
+  );
+}
+
+function AIMesh() {
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-0">
+      <div className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-gradient-to-br from-accent-electric/40 via-accent-violet/30 to-accent-fuchsia/30 blur-3xl" />
+      <div className="absolute -bottom-24 -left-24 h-80 w-80 rounded-full bg-gradient-to-br from-accent-fuchsia/20 to-accent-electric/30 blur-3xl" />
+      <svg className="absolute inset-0 h-full w-full opacity-[0.06]">
+        <defs>
+          <pattern id="ai-grid" width="48" height="48" patternUnits="userSpaceOnUse">
+            <path d="M 48 0 L 0 0 0 48" fill="none" stroke="currentColor" strokeWidth="0.5" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#ai-grid)" />
+      </svg>
+    </div>
+  );
+}
+
+function AIShowcase() {
+  return (
+    <div className="relative">
+      <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur-sm">
+        <div className="flex items-center gap-2 text-[11px] text-paper/50">
+          <span className="inline-block h-2 w-2 rounded-full bg-emerald-400" />
+          a2 · agent.run · vNext
+        </div>
+        <div className="mt-3 space-y-2 font-mono text-[12px] leading-relaxed text-paper/85">
+          <motion.div
+            initial={{ opacity: 0, y: 4 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+          >
+            <span className="text-accent-fuchsia">user</span> &gt; summarize this week&apos;s pipeline by owner.
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 4 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5 }}
+            className="rounded-lg bg-white/[0.04] p-2.5"
+          >
+            <div className="text-paper/55">tool · dynamics.opportunities.query</div>
+            <div className="mt-1">→ 42 records · 7 owners · $1.2M open</div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 4 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.85 }}
+            className="rounded-lg bg-white/[0.04] p-2.5"
+          >
+            <div className="text-paper/55">tool · m365.outlook.draft</div>
+            <div className="mt-1">→ drafted summary email · ready in Outlook</div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 4 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 1.15 }}
+          >
+            <span className="text-emerald-400">agent</span> &gt; sent draft to your Outlook · 3 follow-ups scheduled.
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Side floating chip */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.4 }}
+        className="absolute -top-3 right-4 rotate-2 rounded-full border border-white/15 bg-paper px-3 py-1.5 text-[10px] font-medium uppercase tracking-widest text-ink-900"
+      >
+        grounded · governed
+      </motion.div>
+    </div>
   );
 }

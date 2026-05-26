@@ -1,18 +1,19 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 const steps = [
   {
     n: "01",
     title: "Discover",
     body:
-      "We map the real problem, the stakeholders, and the constraints. You leave the first week with a written technical plan and a fixed scope for phase one.",
+      "We map the real problem, stakeholders, and constraints. You leave the first week with a written technical plan and a fixed scope for phase one.",
   },
   {
     n: "02",
     title: "Design",
     body:
-      "Architecture, data model, integration contracts, and UI flows. Decided up front — so build velocity stays high and surprises stay low.",
+      "Architecture, data model, integration contracts, and UI flows — decided up front so build velocity stays high and surprises stay low.",
   },
   {
     n: "03",
@@ -29,72 +30,68 @@ const steps = [
 ];
 
 export default function Process() {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 70%", "end 30%"],
+  });
+  const lineH = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
   return (
-    <section id="process" className="relative mt-32 sm:mt-44 scroll-mt-24">
+    <section id="process" className="relative mt-36 scroll-mt-24 sm:mt-52">
       <div className="container-x">
-        <div className="grid items-start gap-12 lg:grid-cols-[1fr_1.4fr]">
-          <div className="lg:sticky lg:top-32">
-            <motion.span
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              className="section-eyebrow"
-            >
-              How we work
-            </motion.span>
+        <div className="grid gap-16 lg:grid-cols-[1fr_1.6fr]">
+          <div className="lg:sticky lg:top-32 lg:self-start">
+            <span className="label-eyebrow">How we work</span>
             <motion.h2
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.6 }}
-              className="heading-display mt-4 text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl"
+              transition={{ duration: 0.7 }}
+              className="heading-display mt-5 text-5xl text-ink-900 sm:text-6xl lg:text-7xl"
             >
-              A process built for{" "}
-              <span className="text-gradient-accent">teams that ship</span>.
+              Built for teams
+              <br />
+              <span className="italic text-accent-grad">that ship.</span>
             </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="mt-4 max-w-md text-white/60"
-            >
-              No 80-page decks, no theater. Just a tight loop of decisions,
-              demos, and shipped code.
-            </motion.p>
+            <p className="mt-5 max-w-md text-lg leading-snug text-ink-soft">
+              No 80-page decks. No theater. Just a tight loop of decisions,
+              demos, and shipped code — driven by the people writing it.
+            </p>
           </div>
 
-          <ol className="relative space-y-4">
-            <div
-              aria-hidden
-              className="absolute left-[1.625rem] top-2 hidden h-[calc(100%-1rem)] w-px bg-gradient-to-b from-accent-cyan/60 via-accent-violet/40 to-transparent sm:block"
-            />
-            {steps.map((s, i) => (
-              <motion.li
-                key={s.n}
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.55, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                className="group relative flex gap-4 rounded-2xl border border-white/10 bg-white/[0.025] p-5 transition-colors hover:border-white/20"
-              >
-                <div className="relative">
-                  <div className="heading-display grid h-12 w-12 shrink-0 place-items-center rounded-xl border border-white/10 bg-ink-900 text-sm font-semibold text-white/90">
-                    {s.n}
+          <div ref={ref} className="relative">
+            {/* Scroll-linked progress line */}
+            <div className="absolute left-7 top-0 hidden h-full w-px bg-ink-900/10 sm:block" aria-hidden>
+              <motion.div
+                style={{ height: lineH }}
+                className="w-px bg-gradient-to-b from-accent-electric via-accent-violet to-accent-fuchsia"
+              />
+            </div>
+
+            <ol className="space-y-12 sm:pl-16">
+              {steps.map((s, i) => (
+                <motion.li
+                  key={s.n}
+                  initial={{ opacity: 0, x: 24 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.6, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
+                  className="relative"
+                >
+                  <span
+                    aria-hidden
+                    className="absolute -left-16 top-2 hidden h-3 w-3 rounded-full bg-ink-900 ring-4 ring-paper sm:block"
+                  />
+                  <div className="flex items-baseline gap-4">
+                    <span className="font-mono text-xs text-ink-mute">{s.n}</span>
+                    <h3 className="heading-display text-4xl text-ink-900 sm:text-5xl">{s.title}</h3>
                   </div>
-                  <div className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-br from-accent-cyan/40 via-accent-violet/40 to-accent-fuchsia/40 opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-60" />
-                </div>
-                <div>
-                  <h3 className="heading-display text-xl font-semibold text-white">
-                    {s.title}
-                  </h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-white/60">
-                    {s.body}
-                  </p>
-                </div>
-              </motion.li>
-            ))}
-          </ol>
+                  <p className="mt-3 max-w-2xl text-ink-soft sm:text-lg">{s.body}</p>
+                </motion.li>
+              ))}
+            </ol>
+          </div>
         </div>
       </div>
     </section>

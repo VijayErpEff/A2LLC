@@ -1,49 +1,48 @@
 "use client";
 import { motion } from "framer-motion";
 
-const stack = [
+const row = [
   ".NET 8",
-  "ASP.NET Core",
   "Azure",
-  "C#",
-  "Blazor",
+  "M365 Copilot",
+  "Azure OpenAI",
+  "React",
+  "Next.js",
+  "TypeScript",
   "SQL Server",
   "Dynamics 365",
   "Power Platform",
-  "Entity Framework",
-  "TypeScript",
-  "React",
-  "Next.js",
+  "Semantic Kernel",
   "React Native",
   ".NET MAUI",
+  "Entity Framework",
+  "Cosmos DB",
   "GraphQL",
   "Node.js",
-  "Docker",
-  "Kubernetes",
 ];
 
 export default function LogoMarquee() {
-  const items = [...stack, ...stack];
+  const items = [...row, ...row];
   return (
-    <section className="relative mt-24 sm:mt-32" aria-label="Technology stack">
-      <div className="container-x">
-        <p className="text-center text-xs uppercase tracking-[0.3em] text-white/40">
-          Stacks we work in every day
-        </p>
+    <section aria-label="Technologies" className="relative mt-28 sm:mt-40">
+      <div className="container-x mb-6">
+        <span className="label-eyebrow">Working in</span>
       </div>
-
-      <div className="relative mt-6 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
+      <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
         <motion.div
-          className="flex w-max gap-3 py-4"
+          className="flex w-max gap-2 py-2"
           animate={{ x: ["0%", "-50%"] }}
-          transition={{ duration: 38, ease: "linear", repeat: Infinity }}
+          transition={{ duration: 42, ease: "linear", repeat: Infinity }}
         >
           {items.map((tech, i) => (
             <span
               key={`${tech}-${i}`}
-              className="inline-flex shrink-0 items-center rounded-full border border-white/10 bg-white/[0.03] px-5 py-2 text-sm font-medium text-white/70"
+              className="heading-display inline-flex shrink-0 items-center gap-3 whitespace-nowrap text-3xl text-ink-900 sm:text-4xl"
             >
               {tech}
+              <span className="text-ink-mute" aria-hidden>
+                ·
+              </span>
             </span>
           ))}
         </motion.div>

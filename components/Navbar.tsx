@@ -1,109 +1,146 @@
 "use client";
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import Logo from "./Logo";
 
 const links = [
   { href: "#services", label: "Services" },
   { href: "#process", label: "Process" },
-  { href: "#about", label: "About" },
+  { href: "#about", label: "Studio" },
   { href: "#contact", label: "Contact" },
 ];
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const { scrollY } = useScroll();
+
+  // Subtle scale-down of the top padding as user scrolls
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setScrolled(latest > 24);
+  });
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 16);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    if (open) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
 
   return (
-    <header id="top" className="fixed inset-x-0 top-0 z-50">
+    <header id="top" className="pointer-events-none fixed inset-x-0 top-0 z-50">
       <motion.div
-        initial={{ y: -24, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className={`container-x mt-4 transition-all duration-300 ${
-          scrolled ? "sm:mt-3" : "sm:mt-5"
+        initial={{ opacity: 0, y: -16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        className={`container-x pointer-events-auto transition-[padding] duration-300 ${
+          scrolled ? "pt-3 sm:pt-4" : "pt-6 sm:pt-8"
         }`}
       >
-        <nav
-          className={`flex items-center justify-between rounded-2xl px-4 py-3 transition-all duration-300 ${
-            scrolled
-              ? "glass ring-soft"
-              : "border border-white/5 bg-white/[0.02] backdrop-blur"
-          }`}
-        >
+        <nav className="flex items-center justify-between">
           <Logo />
-          <ul className="hidden items-center gap-1 md:flex">
+
+          <ul className="hidden items-center gap-8 md:flex">
             {links.map((l) => (
               <li key={l.href}>
-                <a
-                  href={l.href}
-                  className="rounded-full px-4 py-2 text-sm text-white/70 transition hover:bg-white/[0.06] hover:text-white"
-                >
-                  {l.label}
-                </a>
+                <NavLink href={l.href}>{l.label}</NavLink>
               </li>
             ))}
           </ul>
-          <div className="hidden md:block">
-            <a href="#contact" className="btn-primary !px-5 !py-2.5 text-sm">
-              Start a project
-              <ArrowUpRight className="h-4 w-4" />
+
+          <div className="hidden items-center gap-3 md:flex">
+            <a href="#contact" className="group inline-flex items-center gap-1.5 text-sm font-medium text-ink-900">
+              <span className="link-underline">Start a project</span>
+              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </a>
           </div>
+
           <button
             type="button"
             aria-label="Toggle menu"
             onClick={() => setOpen((o) => !o)}
-            className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/[0.04] md:hidden"
+            className="grid h-10 w-10 place-items-center text-ink-900 md:hidden"
           >
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            <AnimatePresence initial={false} mode="wait">
+              {open ? (
+                <motion.span
+                  key="x"
+                  initial={{ rotate: -45, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 45, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <X className="h-6 w-6" />
+                </motion.span>
+              ) : (
+                <motion.span
+                  key="m"
+                  initial={{ rotate: 45, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: -45, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Menu className="h-6 w-6" />
+                </motion.span>
+              )}
+            </AnimatePresence>
           </button>
         </nav>
+      </motion.div>
 
-        <AnimatePresence>
-          {open && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.25 }}
-              className="overflow-hidden md:hidden"
-            >
-              <ul className="glass mt-2 flex flex-col gap-1 rounded-2xl p-2">
-                {links.map((l) => (
-                  <li key={l.href}>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="pointer-events-auto fixed inset-0 z-40 bg-paper md:hidden"
+          >
+            <div className="container-x flex h-full flex-col justify-between pb-12 pt-32">
+              <ul className="space-y-2">
+                {links.map((l, i) => (
+                  <motion.li
+                    key={l.href}
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.1 + i * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                  >
                     <a
                       href={l.href}
                       onClick={() => setOpen(false)}
-                      className="block rounded-xl px-4 py-3 text-sm text-white/80 hover:bg-white/[0.06]"
+                      className="heading-display block text-6xl text-ink-900"
                     >
                       {l.label}
                     </a>
-                  </li>
+                  </motion.li>
                 ))}
-                <li className="p-2">
-                  <a
-                    href="#contact"
-                    onClick={() => setOpen(false)}
-                    className="btn-primary w-full justify-center"
-                  >
-                    Start a project
-                    <ArrowUpRight className="h-4 w-4" />
-                  </a>
-                </li>
               </ul>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
+              <motion.a
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.35, duration: 0.4 }}
+                href="#contact"
+                onClick={() => setOpen(false)}
+                className="btn-ink w-full justify-center"
+              >
+                Start a project <ArrowUpRight className="h-4 w-4" />
+              </motion.a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
+  );
+}
+
+function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <a
+      href={href}
+      className="group relative text-sm font-medium text-ink-soft transition-colors hover:text-ink-900"
+    >
+      <span className="link-underline">{children}</span>
+    </a>
   );
 }

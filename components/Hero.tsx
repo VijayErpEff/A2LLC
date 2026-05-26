@@ -1,155 +1,201 @@
 "use client";
-import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, Sparkles, Github, ShieldCheck, Zap } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+  useReducedMotion,
+} from "framer-motion";
+import { ArrowUpRight, Sparkles } from "lucide-react";
+import MagneticButton from "./MagneticButton";
 
-const headline = ["Engineering", "software", "that ships."];
+const cyclingWords = ["software", "AI agents", "platforms", "products"];
 
 export default function Hero() {
+  const [w, setW] = useState(0);
   const reduce = useReducedMotion();
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+  const titleY = useTransform(scrollYProgress, [0, 1], [0, 80]);
+  const titleOp = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  const blobY = useTransform(scrollYProgress, [0, 1], [0, -120]);
+
+  useEffect(() => {
+    if (reduce) return;
+    const t = setInterval(() => setW((p) => (p + 1) % cyclingWords.length), 2200);
+    return () => clearInterval(t);
+  }, [reduce]);
 
   return (
-    <section className="relative isolate pt-32 sm:pt-40 lg:pt-48">
-      {/* Glow orbs */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <motion.div
-          animate={reduce ? undefined : { y: [0, -20, 0], opacity: [0.7, 1, 0.7] }}
-          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute left-[8%] top-24 h-80 w-80 rounded-full bg-accent-blue/30 blur-[120px]"
-        />
-        <motion.div
-          animate={reduce ? undefined : { y: [0, 24, 0], opacity: [0.6, 0.9, 0.6] }}
-          transition={{ duration: 11, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          className="absolute right-[6%] top-40 h-96 w-96 rounded-full bg-accent-violet/30 blur-[140px]"
-        />
-        <motion.div
-          animate={reduce ? undefined : { y: [0, -16, 0] }}
-          transition={{ duration: 13, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          className="absolute left-1/2 top-72 h-72 w-72 -translate-x-1/2 rounded-full bg-accent-cyan/20 blur-[120px]"
-        />
-      </div>
+    <section ref={ref} className="relative isolate overflow-hidden pt-36 sm:pt-44 lg:pt-52">
+      {/* Floating editorial blob */}
+      <motion.div
+        aria-hidden
+        style={{ y: blobY }}
+        className="pointer-events-none absolute -right-32 top-24 -z-10 hidden lg:block"
+      >
+        <div className="h-[28rem] w-[28rem] rounded-full bg-gradient-to-br from-accent-electric/15 via-accent-violet/15 to-accent-fuchsia/10 blur-3xl" />
+      </motion.div>
 
       <div className="container-x relative">
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="flex justify-center"
-        >
-          <span className="section-eyebrow">
-            <Sparkles className="h-3.5 w-3.5 text-accent-cyan" />
-            Microsoft Stack · Mobile · Web
-          </span>
-        </motion.div>
+        {/* Top meta row */}
+        <div className="mb-10 flex items-center justify-between gap-4">
+          <motion.span
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="label-eyebrow"
+          >
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-500" />
+            A2 LLC · Engineering Studio · est. 2022
+          </motion.span>
+          <motion.span
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="label-eyebrow hidden sm:inline-flex"
+          >
+            <Sparkles className="h-3 w-3" />
+            Booking summer 2026
+          </motion.span>
+        </div>
 
-        <h1 className="heading-display mt-6 text-center text-5xl font-semibold leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl xl:text-[5.25rem]">
-          {headline.map((word, i) => (
-            <span key={word} className="inline-block overflow-hidden pb-2 align-bottom">
-              <motion.span
-                initial={{ y: "110%" }}
-                animate={{ y: 0 }}
-                transition={{
-                  duration: 0.8,
-                  ease: [0.22, 1, 0.36, 1],
-                  delay: 0.15 + i * 0.08,
-                }}
-                className={`inline-block pr-3 ${
-                  i === 2 ? "text-gradient-accent" : ""
-                }`}
+        {/* Headline */}
+        <motion.h1
+          style={{ y: titleY, opacity: titleOp }}
+          className="heading-display text-[12vw] leading-[0.9] sm:text-[10vw] lg:text-[9.2rem] xl:text-[10.5rem]"
+        >
+          <RevealLine delay={0.15}>
+            <span className="font-medium tracking-tightest">We engineer</span>
+          </RevealLine>
+
+          <div className="my-2 flex flex-wrap items-baseline gap-x-6 sm:gap-x-8">
+            <RevealLine delay={0.3}>
+              <span
+                className="relative inline-block italic text-accent-grad"
+                style={{ fontFamily: "var(--font-display)" }}
               >
-                {word}
-              </motion.span>
-            </span>
-          ))}
-        </h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="mx-auto mt-6 max-w-2xl text-balance text-center text-base leading-relaxed text-white/65 sm:text-lg"
-        >
-          A2 LLC is a software studio building production-grade products on the
-          Microsoft stack — from <span className="text-white">.NET &amp; Azure</span> platforms to
-          <span className="text-white"> custom mobile and web apps</span> teams actually use.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.65, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row"
-        >
-          <a href="#contact" className="btn-primary">
-            Start a project <ArrowRight className="h-4 w-4" />
-          </a>
-          <a href="#services" className="btn-ghost">
-            Explore services
-          </a>
-        </motion.div>
-
-        {/* Trust strip */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.85, ease: [0.22, 1, 0.36, 1] }}
-          className="mx-auto mt-14 flex max-w-3xl flex-wrap items-center justify-center gap-2 sm:gap-3"
-        >
-          <span className="chip"><ShieldCheck className="h-3.5 w-3.5 text-accent-cyan" /> US-registered LLC · EIN 88-2991817</span>
-          <span className="chip"><Zap className="h-3.5 w-3.5 text-accent-fuchsia" /> Senior engineering only</span>
-          <span className="chip"><Github className="h-3.5 w-3.5 text-white/70" /> Production-first delivery</span>
-        </motion.div>
-
-        {/* Floating preview card */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1, ease: [0.22, 1, 0.36, 1] }}
-          className="relative mx-auto mt-20 max-w-5xl"
-        >
-          <div className="glass ring-soft relative overflow-hidden rounded-3xl p-2 sm:p-3">
-            <div className="rounded-2xl bg-ink-900/80 p-6 sm:p-8">
-              <div className="mb-5 flex items-center gap-1.5">
-                <span className="h-3 w-3 rounded-full bg-white/20" />
-                <span className="h-3 w-3 rounded-full bg-white/20" />
-                <span className="h-3 w-3 rounded-full bg-white/20" />
-                <span className="ml-3 text-xs text-white/40">a2llc.com — engagement</span>
-              </div>
-
-              <div className="grid gap-6 sm:grid-cols-3">
-                {[
-                  { k: "Discovery", v: "Week 1", c: "from-accent-cyan to-accent-blue" },
-                  { k: "Build", v: "Weeks 2–8", c: "from-accent-blue to-accent-violet" },
-                  { k: "Launch", v: "Week 9+", c: "from-accent-violet to-accent-fuchsia" },
-                ].map((item, i) => (
-                  <motion.div
-                    key={item.k}
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 1.1 + i * 0.1 }}
-                    className="rounded-2xl border border-white/5 bg-white/[0.02] p-5"
+                <span className="invisible whitespace-pre">
+                  {longest(cyclingWords)}
+                </span>
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={cyclingWords[w]}
+                    initial={{ y: "80%", opacity: 0, rotate: 6 }}
+                    animate={{ y: 0, opacity: 1, rotate: 0 }}
+                    exit={{ y: "-80%", opacity: 0, rotate: -4 }}
+                    transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                    className="absolute left-0 top-0 whitespace-pre"
                   >
-                    <div className={`mb-3 inline-block h-1.5 w-10 rounded-full bg-gradient-to-r ${item.c}`} />
-                    <div className="text-xs uppercase tracking-widest text-white/40">{item.k}</div>
-                    <div className="heading-display mt-1 text-2xl text-white">{item.v}</div>
-                  </motion.div>
-                ))}
-              </div>
-
-              <div className="mt-6 grid gap-2 text-xs text-white/50 sm:grid-cols-2">
-                <div className="rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3">
-                  <span className="text-white/40">Stack ›</span> .NET 8 · ASP.NET Core · Blazor · Azure · SQL Server · Power Platform
-                </div>
-                <div className="rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3">
-                  <span className="text-white/40">Apps ›</span> React · Next.js · React Native · .NET MAUI · TypeScript
-                </div>
-              </div>
-            </div>
+                    {cyclingWords[w]}
+                  </motion.span>
+                </AnimatePresence>
+                <motion.svg
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{ duration: 1.2, delay: 1.2, ease: "easeOut" }}
+                  viewBox="0 0 300 14"
+                  preserveAspectRatio="none"
+                  className="absolute -bottom-2 left-0 h-2 w-full"
+                >
+                  <motion.path
+                    d="M2 8 C 60 2, 140 12, 220 6 S 290 8, 298 6"
+                    fill="none"
+                    stroke="url(#hero-underline)"
+                    strokeWidth="2.4"
+                    strokeLinecap="round"
+                  />
+                  <defs>
+                    <linearGradient id="hero-underline" x1="0" y1="0" x2="300" y2="0">
+                      <stop offset="0%" stopColor="#3b21ff" />
+                      <stop offset="100%" stopColor="#ff2bd6" />
+                    </linearGradient>
+                  </defs>
+                </motion.svg>
+              </span>
+            </RevealLine>
+            <RevealLine delay={0.45}>
+              <span className="font-medium tracking-tightest">built to ship.</span>
+            </RevealLine>
           </div>
+        </motion.h1>
 
-          {/* Edge glow */}
-          <div aria-hidden className="pointer-events-none absolute -inset-4 -z-10 rounded-[2rem] bg-gradient-to-r from-accent-cyan/20 via-accent-violet/20 to-accent-fuchsia/20 blur-2xl" />
+        {/* Lead + CTAs */}
+        <div className="mt-12 grid items-end gap-10 lg:grid-cols-[1.2fr_1fr]">
+          <motion.p
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.6 }}
+            className="max-w-xl text-lg leading-snug text-ink-soft sm:text-xl"
+          >
+            A small senior studio building on the{" "}
+            <span className="marker font-medium text-ink-900">Microsoft stack</span>,
+            shipping <span className="marker font-medium text-ink-900">agentic AI</span>{" "}
+            with M365 Copilot, and crafting{" "}
+            <span className="marker font-medium text-ink-900">mobile &amp; web</span>{" "}
+            products that customers actually use.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.75 }}
+            className="flex flex-wrap items-center gap-3 lg:justify-end"
+          >
+            <MagneticButton href="#contact">
+              Start a project <ArrowUpRight className="h-4 w-4" />
+            </MagneticButton>
+            <a href="#services" className="btn-outline">
+              See what we build
+            </a>
+          </motion.div>
+        </div>
+
+        {/* Live status row */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1 }}
+          className="mt-24 grid gap-4 border-t border-ink-900/10 pt-8 sm:grid-cols-3"
+        >
+          <Stat label="Engagements led by" value="Senior engineers only" />
+          <Stat label="Building on" value=".NET · Azure · React · AI" />
+          <Stat label="Based in" value="Chantilly, Virginia" />
         </motion.div>
       </div>
     </section>
   );
+}
+
+function RevealLine({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  return (
+    <span className="block overflow-hidden">
+      <motion.span
+        initial={{ y: "105%" }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.85, delay, ease: [0.22, 1, 0.36, 1] }}
+        className="inline-block"
+      >
+        {children}
+      </motion.span>
+    </span>
+  );
+}
+
+function Stat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex flex-col gap-1.5">
+      <span className="label-eyebrow">{label}</span>
+      <span className="text-base text-ink-900">{value}</span>
+    </div>
+  );
+}
+
+function longest(words: string[]) {
+  return words.reduce((a, b) => (b.length > a.length ? b : a), "");
 }
