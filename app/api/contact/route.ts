@@ -179,9 +179,22 @@ export async function POST(req: NextRequest) {
       redis.hset(`contact:submission:${id}`, record),
     ]);
   } catch (err) {
-    console.error("upstash write failed", err);
+    const url = process.env.UPSTASH_REDIS_REST_URL || "";
+    const token = process.env.UPSTASH_REDIS_REST_TOKEN || "";
+    const diag = {
+      hasUrl: Boolean(url),
+      hasToken: Boolean(token),
+      urlStartsWith: url.slice(0, 30),
+      urlHasQuotes: url.includes('"'),
+      urlHasSpaces: url !== url.trim(),
+      tokenLength: token.length,
+      tokenHasQuotes: token.includes('"'),
+      tokenHasSpaces: token !== token.trim(),
+      message: err instanceof Error ? err.message : String(err),
+    };
+    console.error("upstash write failed", diag);
     return NextResponse.json(
-      { error: "Could not save your message. Please try again." },
+      { error: "Could not save your message. Please try again.", diag },
       { status: 500 },
     );
   }
