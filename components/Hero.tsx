@@ -59,18 +59,18 @@ export default function Hero() {
         {/* Headline */}
         <motion.h1
           style={{ y: titleY, opacity: titleOp }}
-          className="heading-display text-[12vw] leading-[0.9] sm:text-[10vw] lg:text-[9.2rem] xl:text-[10.5rem]"
+          className="heading-display text-center text-[10.4vw] leading-[0.96] sm:text-[8.6vw] lg:text-[8rem] xl:text-[9.1rem]"
         >
           <RevealLine delay={0.15}>
             <span className="font-medium tracking-tightest">We engineer</span>
           </RevealLine>
 
-          <div className="my-2 flex flex-wrap items-baseline gap-x-6 sm:gap-x-8">
+          <div className="my-2 flex flex-wrap items-baseline justify-center gap-x-6 sm:gap-x-8">
             <motion.span
               initial={{ opacity: 0, y: 28, skewX: -1.5 }}
               animate={{ opacity: 1, y: 0, skewX: -1.5 }}
               transition={{ duration: 0.85, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="relative inline-grid italic px-[0.22em] pt-[0.08em] pb-[0.3em] leading-[1.2]"
+              className="relative inline-grid italic px-[0.28em] pt-[0.1em] pb-[0.34em] leading-[1.2]"
               style={{ fontFamily: "var(--font-display)" }}
             >
               {/* Every measurement word + the visible cycling word share the same grid cell. The visible word is a real grid item, so the parent's padding actually pushes it inward — giving the italic slant and descenders room to render. */}
@@ -153,10 +153,10 @@ function RevealLine({ children, delay = 0 }: { children: React.ReactNode; delay?
   return (
     <span className="block overflow-hidden">
       <motion.span
-        initial={{ y: "105%" }}
+        initial={{ y: "115%" }}
         animate={{ y: 0 }}
         transition={{ duration: 0.85, delay, ease: [0.22, 1, 0.36, 1] }}
-        className="inline-block"
+        className="inline-block leading-[1.12] pb-[0.05em]"
       >
         {children}
       </motion.span>
