@@ -163,10 +163,11 @@ function RevealLine({ children, delay = 0 }: { children: React.ReactNode; delay?
   return (
     <span className="block overflow-hidden">
       <motion.span
-        initial={{ y: "115%" }}
+        initial={{ y: "125%" }}
         animate={{ y: 0 }}
         transition={{ duration: 0.85, delay, ease: [0.22, 1, 0.36, 1] }}
-        className="inline-block leading-[1.12] pb-[0.05em]"
+        className="inline-block"
+        style={{ lineHeight: 1.22, paddingBottom: "0.12em" }}
       >
         {children}
       </motion.span>
