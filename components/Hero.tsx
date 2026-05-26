@@ -79,7 +79,7 @@ export default function Hero() {
                 eliminates the slant + the dramatic descender curl. */}
             <span
               className="relative inline-grid font-medium tracking-tightest"
-              style={{ fontFamily: "var(--font-display)" }}
+              style={{ fontFamily: "var(--font-display)", paddingRight: "0.12em" }}
             >
               {cyclingWords.map((word) => (
                 <span
