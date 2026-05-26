@@ -73,11 +73,12 @@ export default function Hero() {
             className="flex flex-wrap items-baseline justify-center gap-x-6 sm:gap-x-8"
             style={{ lineHeight: 1.18 }}
           >
-            {/* Cycling word — same size as surrounding text, italic + gradient,
-                wrapped in a no-overflow inline-grid that sizes to the widest
-                cycling word so the layout doesn't jump as the word swaps. */}
+            {/* Cycling word — same font, same size, gradient color, NO italic.
+                Italic serif descenders ('p'/'f' curl below baseline) were being
+                read as clipping even when they rendered fully. Removing italic
+                eliminates the slant + the dramatic descender curl. */}
             <span
-              className="relative inline-grid italic"
+              className="relative inline-grid font-medium tracking-tightest"
               style={{ fontFamily: "var(--font-display)" }}
             >
               {cyclingWords.map((word) => (
