@@ -7,7 +7,7 @@ import {
   useTransform,
   useReducedMotion,
 } from "framer-motion";
-import { ArrowUpRight, Sparkles } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import MagneticButton from "./MagneticButton";
 
 const cyclingWords = ["software", "AI agents", "platforms", "products"];
@@ -54,15 +54,6 @@ export default function Hero() {
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-500" />
             A2 LLC · Engineering Studio · est. 2022
           </motion.span>
-          <motion.span
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="label-eyebrow hidden sm:inline-flex"
-          >
-            <Sparkles className="h-3 w-3" />
-            Booking summer 2026
-          </motion.span>
         </div>
 
         {/* Headline */}
@@ -77,7 +68,7 @@ export default function Hero() {
           <div className="my-2 flex flex-wrap items-baseline gap-x-6 sm:gap-x-8">
             <RevealLine delay={0.3}>
               <span
-                className="relative inline-block italic text-accent-grad"
+                className="relative inline-block italic"
                 style={{ fontFamily: "var(--font-display)" }}
               >
                 <span className="invisible whitespace-pre">
@@ -90,7 +81,7 @@ export default function Hero() {
                     animate={{ y: 0, opacity: 1, rotate: 0 }}
                     exit={{ y: "-80%", opacity: 0, rotate: -4 }}
                     transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                    className="absolute left-0 top-0 whitespace-pre"
+                    className="absolute left-0 top-0 whitespace-pre text-accent-grad"
                   >
                     {cyclingWords[w]}
                   </motion.span>

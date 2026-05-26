@@ -29,12 +29,20 @@ export default function Navbar() {
 
   return (
     <header id="top" className="pointer-events-none fixed inset-x-0 top-0 z-50">
+      <div
+        aria-hidden
+        className={`pointer-events-none absolute inset-x-0 top-0 transition-all duration-300 ${
+          scrolled
+            ? "h-[68px] sm:h-[76px] bg-paper/80 backdrop-blur-md border-b border-ink-900/10 shadow-[0_4px_20px_-12px_rgba(12,12,14,0.18)]"
+            : "h-0 bg-transparent border-b border-transparent"
+        }`}
+      />
       <motion.div
         initial={{ opacity: 0, y: -16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className={`container-x pointer-events-auto transition-[padding] duration-300 ${
-          scrolled ? "pt-3 sm:pt-4" : "pt-6 sm:pt-8"
+        className={`container-x relative pointer-events-auto transition-[padding] duration-300 ${
+          scrolled ? "pt-3 sm:pt-4 pb-3 sm:pb-4" : "pt-6 sm:pt-8 pb-2"
         }`}
       >
         <nav className="flex items-center justify-between">
