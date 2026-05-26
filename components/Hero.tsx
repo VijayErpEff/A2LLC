@@ -73,12 +73,13 @@ export default function Hero() {
               className="relative inline-grid italic"
               style={{
                 fontFamily: "var(--font-display)",
-                fontSize: "0.92em",
-                lineHeight: 1.28,
-                paddingLeft: "0.36em",
-                paddingRight: "0.36em",
-                paddingTop: "0.14em",
-                paddingBottom: "0.4em",
+                fontSize: "0.82em",
+                lineHeight: 1.3,
+                paddingLeft: "0.42em",
+                paddingRight: "0.42em",
+                paddingTop: "0.16em",
+                paddingBottom: "0.46em",
+                overflow: "visible",
               }}
             >
               {/* Every measurement word + the visible cycling word share the same grid cell. The visible word is a real grid item, so the parent's padding actually pushes it inward — giving the italic slant and descenders room to render. */}
