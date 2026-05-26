@@ -70,15 +70,23 @@ export default function Hero() {
               initial={{ opacity: 0, y: 28, skewX: -1.5 }}
               animate={{ opacity: 1, y: 0, skewX: -1.5 }}
               transition={{ duration: 0.85, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="relative inline-grid italic px-[0.28em] pt-[0.1em] pb-[0.34em] leading-[1.2]"
-              style={{ fontFamily: "var(--font-display)" }}
+              className="relative inline-grid italic"
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "0.92em",
+                lineHeight: 1.28,
+                paddingLeft: "0.36em",
+                paddingRight: "0.36em",
+                paddingTop: "0.14em",
+                paddingBottom: "0.4em",
+              }}
             >
               {/* Every measurement word + the visible cycling word share the same grid cell. The visible word is a real grid item, so the parent's padding actually pushes it inward — giving the italic slant and descenders room to render. */}
               {cyclingWords.map((word) => (
                 <span
                   key={`measure-${word}`}
                   aria-hidden
-                  className="col-start-1 row-start-1 invisible whitespace-pre"
+                  style={{ gridArea: "1 / 1", visibility: "hidden", whiteSpace: "pre" }}
                 >
                   {word}
                 </span>
@@ -90,7 +98,8 @@ export default function Hero() {
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: "-85%", opacity: 0 }}
                   transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                  className="col-start-1 row-start-1 whitespace-pre text-accent-grad"
+                  className="text-accent-grad"
+                  style={{ gridArea: "1 / 1", whiteSpace: "pre" }}
                 >
                   {cyclingWords[w]}
                 </motion.span>

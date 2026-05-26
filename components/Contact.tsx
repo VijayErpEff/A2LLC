@@ -1,17 +1,51 @@
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Send, Loader2, CheckCircle2, ArrowUpRight } from "lucide-react";
+import { Loader2, CheckCircle2, ArrowUpRight, AlertCircle } from "lucide-react";
 
-type State = "idle" | "submitting" | "sent";
+type State = "idle" | "submitting" | "sent" | "error";
 
 export default function Contact() {
   const [state, setState] = useState<State>("idle");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
-  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (state === "submitting") return;
+
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const payload = {
+      name: String(data.get("name") ?? ""),
+      email: String(data.get("email") ?? ""),
+      company: String(data.get("company") ?? ""),
+      budget: String(data.get("budget") ?? ""),
+      message: String(data.get("message") ?? ""),
+      honeypot: String(data.get("website") ?? ""),
+    };
+
     setState("submitting");
-    setTimeout(() => setState("sent"), 900);
+    setErrorMessage("");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const json = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        error?: string;
+      };
+      if (!res.ok || !json.ok) {
+        throw new Error(json.error || "Something went wrong. Please try again.");
+      }
+      form.reset();
+      setState("sent");
+    } catch (err) {
+      setErrorMessage(err instanceof Error ? err.message : "Something went wrong.");
+      setState("error");
+    }
   }
 
   return (
@@ -69,7 +103,7 @@ export default function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7 }}
-            className="rounded-3xl border border-ink-900/8 bg-white/70 p-7 backdrop-blur-sm sm:p-9"
+            className="relative rounded-3xl border border-ink-900/8 bg-white/70 p-7 backdrop-blur-sm sm:p-9"
           >
             <div className="grid gap-5 sm:grid-cols-2">
               <Field label="Name" name="name" placeholder="Jane Engineer" required />
@@ -88,18 +122,34 @@ export default function Contact() {
               />
             </div>
 
+            {/* Honeypot — hidden from real users, bots fill it. */}
+            <div className="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
+              <label>
+                Website
+                <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+              </label>
+            </div>
+
+            {state === "error" && (
+              <div className="mt-5 flex items-start gap-2 rounded-xl border border-red-500/20 bg-red-500/5 px-4 py-3 text-sm text-red-700">
+                <AlertCircle className="mt-0.5 h-4 w-4 flex-none" />
+                <span>{errorMessage}</span>
+              </div>
+            )}
+
             <div className="mt-7 flex items-center justify-between gap-4">
               <p className="text-xs text-ink-mute">
                 No newsletters. No spam. Just engineering.
               </p>
               <button
                 type="submit"
-                disabled={state !== "idle"}
+                disabled={state === "submitting" || state === "sent"}
                 className="btn-ink disabled:opacity-90"
               >
-                {state === "idle" && (
+                {(state === "idle" || state === "error") && (
                   <>
-                    Send message <ArrowUpRight className="h-4 w-4" />
+                    {state === "error" ? "Try again" : "Send message"}{" "}
+                    <ArrowUpRight className="h-4 w-4" />
                   </>
                 )}
                 {state === "submitting" && (
