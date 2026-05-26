@@ -81,8 +81,8 @@ export default function Hero() {
               className="relative inline-grid font-medium"
               style={{
                 fontFamily: "var(--font-display)",
-                paddingLeft: "0.15em",
-                paddingRight: "0.3em",
+                paddingLeft: "0.2em",
+                paddingRight: "0.4em",
                 letterSpacing: "0",
               }}
             >
